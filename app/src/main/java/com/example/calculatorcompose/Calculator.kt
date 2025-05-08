@@ -16,7 +16,6 @@ package com.example.calculatorcompose
  import androidx.compose.material3.MaterialTheme
  import androidx.compose.material3.Text
  import androidx.compose.runtime.Composable
- import androidx.compose.runtime.mutableStateOf
  import androidx.compose.ui.Alignment
  import androidx.compose.ui.Modifier
  import androidx.compose.ui.draw.clip
@@ -27,11 +26,13 @@ package com.example.calculatorcompose
  import androidx.compose.ui.unit.sp
  import com.example.calculatorcompose.ui.theme.CalculatorComposeTheme
 
-var expression = mutableStateOf("45x8")
-var summa = mutableStateOf("360")
+val viewModel = CalculatorViewModel()
+
 
 @Composable
-fun Calculator(modifier: Modifier = Modifier) {
+fun Calculator(modifier: Modifier = Modifier
+) {
+    val state = viewModel.state.value
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -56,13 +57,13 @@ fun Calculator(modifier: Modifier = Modifier) {
             horizontalAlignment = Alignment.End
         ) {
             Text(
-                text = expression.value,
+                text = state.expression,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
                 fontSize = 36.sp)
             Text(
-                text = summa.value,
+                text = state.result,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSecondaryContainer,
@@ -113,8 +114,7 @@ fun Calculator(modifier: Modifier = Modifier) {
                     .clip(shape = CircleShape)
                     .clickable { 
                         Log.d("Calculator", "The 'AC' button is clicked ")
-                        expression.value = ""
-                        summa.value = ""
+                       viewModel.processUserInput("AC")
                     }
                     .background(color = MaterialTheme.colorScheme.secondary)
                     .aspectRatio(1f),
@@ -300,6 +300,10 @@ fun Calculator(modifier: Modifier = Modifier) {
             Box(
                 modifier = Modifier
                     .clip(shape = CircleShape)
+                    .clickable {
+                        Log.d("Calculator", "The '1' button is clicked ")
+                        viewModel.processUserInput("1")
+                    }
                     .background(color = MaterialTheme.colorScheme.primary)
                     .weight(1f)
                     .aspectRatio(1f),
@@ -314,6 +318,10 @@ fun Calculator(modifier: Modifier = Modifier) {
             Box(
                 modifier = Modifier
                     .clip(shape = CircleShape)
+                    .clickable {
+                        Log.d("Calculator", "The '2' button is clicked ")
+                        viewModel.processUserInput("2")
+                    }
                     .background(color = MaterialTheme.colorScheme.primary)
                     .weight(1f)
                     .aspectRatio(1f),
