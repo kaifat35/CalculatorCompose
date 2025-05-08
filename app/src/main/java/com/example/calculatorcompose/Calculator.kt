@@ -59,18 +59,58 @@ fun Calculator(modifier: Modifier = Modifier,
             verticalArrangement = Arrangement.Bottom,
             horizontalAlignment = Alignment.End
         ) {
-            Text(
-                text = state.value.expression,
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
-                fontSize = 36.sp)
-            Text(
-                text = state.value.result,
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onSecondaryContainer,
-                fontSize = 17.sp)
+            when(val currentState: CalculatorState = state.value){
+                is CalculatorState.Error -> {
+                    Text(
+                        text = currentState.expression,
+                        textAlign = TextAlign.Center,
+                        lineHeight = 36.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.error,
+                        fontSize = 36.sp)
+                    Text(
+                        text = "",
+                        textAlign = TextAlign.Center,
+                        lineHeight = 17.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer,
+                        fontSize = 17.sp)
+                }
+                CalculatorState.Initial -> {}
+                is CalculatorState.Input -> {
+                    Text(
+                        text = currentState.expression,
+                        textAlign = TextAlign.Center,
+                        lineHeight = 36.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        fontSize = 36.sp)
+                    Text(
+                        text = currentState.result,
+                        textAlign = TextAlign.Center,
+                        lineHeight = 17.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer,
+                        fontSize = 17.sp)
+                }
+                is CalculatorState.Success -> {
+                    Text(
+                        text = currentState.result,
+                        textAlign = TextAlign.Center,
+                        lineHeight = 36.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        fontSize = 36.sp)
+                    Text(
+                        text = "",
+                        textAlign = TextAlign.Center,
+                        lineHeight = 17.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer,
+                        fontSize = 17.sp)
+                }
+            }
+
         }
         Row(
             modifier = Modifier
